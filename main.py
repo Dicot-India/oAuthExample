@@ -1,5 +1,6 @@
 import requests
 import pathlib 
+import json
 def upload_data(data, server_url, endpoint):
   """Uploads data to a server with ExpressJS.
 
@@ -11,7 +12,7 @@ def upload_data(data, server_url, endpoint):
   """
   
   TOKEN=data['accessToken']
-  request={'Project_id':'eb77307d-c032-4dcf-8540-12381d169e15'}
+  request={'Project_id':'eb77307d-c032-4dcf-8540-12381d169e15','token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJQcm9qZWN0IjoiUDEiLCJ1dWlkIjoiZWI3NzMwN2QtYzAzMi00ZGNmLTg1NDAtMTIzODFkMTY5ZTE1IiwiaWF0IjoxNjk0MTc1MjQ2fQ.RxZ_U4surD5z5RVQGzrhGG7H0Xay7cCtWQmgsSKzp90','metadata':json.dumps({ "Devices": [ { "Header": "PV", "val": "10" }, { "Header": "SV", "val": "233" } ] })}
   response = requests.post(f"{server_url}/{endpoint}?token="+TOKEN+"&projectID=eb77307d-c032-4dcf-8540-12381d169e15", data=request,headers={"Authorization": f"Bearer {TOKEN}"})
   print(response)
 
@@ -40,9 +41,11 @@ def LoginUser(data,serve_url,endpoint):
 
 
 def refreshTOken(serve_url,endpoint,data):
+  print(serve_url+endpoint)
   resp=requests.get(serve_url+endpoint,data=data).json()
+  print(resp)
 
-  upload_data(resp,'http://localhost:8080','db/get-data')
+  upload_data(resp,'http://localhost:8080','db/update-data')
   
 
 # Example usage:
